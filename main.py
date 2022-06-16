@@ -21,4 +21,4 @@ dichotomy_method(Lx, a, b, eps)
 
 reverse_nodes = list([i[1], i[0]] for i in nodes)
 Ly = lagrange(f, reverse_nodes)
-print(f'Ly(0) = {Ly(0)}')
+print(f'Ly(0) = {Ly(0):.6f}')

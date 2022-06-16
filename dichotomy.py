@@ -14,4 +14,4 @@ def dichotomy_method(f, a, b, eps):
             a = x
             x = (x + b) / 2
     
-    print(f'Root of the equation Lx(x) = 0 is {x} with precision eps = {eps}.')
+    print(f'Root of the equation Lx(x) = 0 is {x:.6f} with precision eps = {eps}.')
