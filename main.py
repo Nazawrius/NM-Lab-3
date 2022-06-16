@@ -1,5 +1,8 @@
 from math import cos
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 from dichotomy import dichotomy_method
 from lagrange import lagrange
 from prohonka import method_prohonky
@@ -16,12 +19,23 @@ for i in range(1, 10):
     print(f'i = {i}\tx = {x:.1f}\ty = {y:.6f}')
 
 Lx = lagrange(f, nodes)
+x = np.linspace(-1, 1, 1000)
+fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
+ax.plot(x, Lx(x), label='Lx')
+
 a, b = -1, 0
 eps = 1e-3
 dichotomy_method(Lx, a, b, eps)
 
 reverse_nodes = list([i[1], i[0]] for i in nodes)
 Ly = lagrange(f, reverse_nodes)
+y = np.linspace(-3, 4.5, 1000)
+x = [Ly(i) for i in y]
+ax.plot(x, y, label='Ly')
+ax.set_xlabel('x')
+ax.set_ylabel('y') 
+ax.legend()
+plt.show()
 print(f'Ly(0) = {Ly(0):.6f}')
 
 A = [[4, 1] + [0] * 6]
