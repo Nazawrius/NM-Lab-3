@@ -1,7 +1,8 @@
 from math import cos
-from dichotomy import dichotomy_method
 
+from dichotomy import dichotomy_method
 from lagrange import lagrange
+from prohonka import method_prohonky
 
 f = lambda x: x**3 - 5*x**2 + 4*cos(x) + 0.092
 h = 0.1
@@ -22,3 +23,23 @@ dichotomy_method(Lx, a, b, eps)
 reverse_nodes = list([i[1], i[0]] for i in nodes)
 Ly = lagrange(f, reverse_nodes)
 print(f'Ly(0) = {Ly(0):.6f}')
+
+A = [[4, 1] + [0] * 6]
+for i in range(6):
+    A.append([0] * i + [1, 4, 1] + [0] * (5 - i))
+A.append([0] * 6 + [1, 4])
+
+f = [6/h**2*(nodes[i+1][1] - nodes[i-1][1]) for i in range(1, 9)]
+
+c = [0] + method_prohonky(A, f) + [0]
+
+d = [None] + [(c[i] - c[i - 1])/h for i in range(1, 10)]
+
+a = [node[1] for node in nodes]
+
+b = [None] + [h*c[i]/2 - h**2*d[i]/6 + (a[i] - a[i - 1])/h for i in range(1, 9)]
+
+string = lambda n: f'{n:.5f}' if n < 0 else '+ ' + f'{n:.5f}'
+r_string = lambda n: f'{n:.5f}' if n >= 0 else '+ ' + f'{abs(n):.5f}'
+for i in range(1, 9):
+    print(f's{i} = {a[i]:.5f} {string(b[i])}(x {r_string(nodes[i][0])}) {string(c[i]/2)}(x {r_string(nodes[i][0])})^2 {string(d[i]/6)}(x {r_string(nodes[i][0])})^3, {nodes[i - 1][0]:.2f} <= x <= {nodes[i][0]:.2f}')
